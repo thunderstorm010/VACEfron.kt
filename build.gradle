@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'maven-publish'
 }
 
 group 'me.thunderstorm.api.vacefron'
@@ -14,3 +15,5 @@ dependencies {
     implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.5'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 }
+
+

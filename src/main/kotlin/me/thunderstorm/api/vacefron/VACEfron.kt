@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets
 
 class VACEfron : ApiUtil() {
     override var baseUrl = "https://vacefron.nl/api/"
+    override var userAgent: String = "VACEfron.kt"
 
     override fun parseErr(body: ResponseBody) {
         val obj = Json.parse(body.string()).asObject()
