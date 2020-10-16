@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package me.thunderstorm.commons.api
 
@@ -13,13 +13,15 @@ import kotlin.properties.Delegates
 abstract class ApiUtil {
     protected var client = OkHttpClient()
     protected abstract var baseUrl: String
+    protected abstract var userAgent: String
 
     protected abstract fun parseErr(body: ResponseBody)
 
     protected open fun makeWebRequest(endpoint: String, arguments: MutableMap<String, String>): JsonObject {
         val builder = Request.Builder()
-            .url("$baseUrl/$endpoint${parseArgs(arguments)}")
-        var responseString = ""
+                .url("$baseUrl/$endpoint${parseArgs(arguments)}")
+                .addHeader("User-Agent", userAgent)
+        var responseString: String
         client.newCall(builder.build()).execute().use { response ->
             response.body!!.use { body ->
                 if (response.code != 200) {
@@ -55,7 +57,8 @@ abstract class ApiUtil {
 
     protected open fun makeImageRequest(endpoint: String, arguments: MutableMap<String, String>): ByteArrayInputStream {
         val builder = Request.Builder()
-            .url("$baseUrl/$endpoint${parseArgs(arguments)}")
+                .url("$baseUrl/$endpoint${parseArgs(arguments)}")
+                .addHeader("User-Agent", userAgent)
         var responseArray by Delegates.notNull<ByteArrayInputStream>()
         client.newCall(builder.build()).execute().use { response ->
             response.body!!.use { body ->
